@@ -13,7 +13,7 @@ gem 'ablerc'
 Usage
 ------
 
-Add a ablerc.rb file to your project. 
+Add an ablerc.rb file to the root of your project. 
 
 If you use the option DSL you will be able to generate stub rc files and validate option values. However, you're free to 
 simply provide an `rc_file_name` and any option defined in that rc file will be available to you. 
@@ -57,9 +57,8 @@ end
 
 Accessing Configuration Options
 ----------
-Options defined in the rc file are accessed through the `#configuration` method. All key-pair values are
-parsed and made available through `#configuration` (or the alias `#config`) regardless of if you're using
-the options DSL. 
+Options defined in the rc file are accessed through the `#configuration` method. All uncommented key-pair values within the rc file are parsed and made available through `#configuration` (or the alias `#config`), regardless of if you're using
+the options DSL to define specific options. 
 
 
 ```ruby
