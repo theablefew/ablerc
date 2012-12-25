@@ -8,22 +8,27 @@ module Ablerc
     include Singleton
     attr_accessor :store
 
+
     class << self
       def load(path); self.instance.load(path); end
     end
+
 
     def read_values(&rc_file)
       rc_file.call
       yield(self)
     end
 
+
     def initialize
       @store ||= Hashie::Mash.new
     end
 
+
     def method_missing(method, *args, &block)
        store.send(method, *args, &block)
     end
+
 
     def load(path)
       return unless File.exists? path

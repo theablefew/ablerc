@@ -1,11 +1,14 @@
 module Ablerc
   class DSL
+
+
     # The name of the file to be used for the configuration of this app
     # Include a dot if you expect hidden file behavior. 
     def rc_file_name(file_name)
       puts "RC_FILE #{file_name}".color :green
       Ablerc.rc_file_name = file_name
     end
+
 
     # Describes the order in which configuration files are loaded.
     # Default is <tt>:global</tt>, <tt>:user</tt>, <tt>:local</tt> which
@@ -20,6 +23,7 @@ module Ablerc
       Ablerc.scheme = contexts
     end
 
+
     # Describe the options available
     #
     # ==== Parameters
@@ -33,14 +37,25 @@ module Ablerc
       Ablerc.options << Ablerc::Option.new(name, behaviors, &block)
     end
 
+
     def context(name, options)
       Ablerc::Context.new(name, options)
     end
 
-    def method_missing(method_name, *args, &block)
-      msg = "You tried to call the method #{method_name}. There is no such method."
-      raise msg
+    # Configures stub options for #generate
+    #
+    # ==== Options
+    # * <tt>header</tt>   - Text to be included at the beginning of the rc file
+    # * <tt>footer</tt>   - Text to be included at the end of the rc file
+    def stub(options)
+     Ablerc.stub_options = options
     end
+
+
+    def method_missing(method_name, *args, &block)
+      raise "You tried to call the method #{method_name}. There is no such method."
+    end
+
 
     def respond_to? *args; super; end
   end

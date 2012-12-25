@@ -3,42 +3,50 @@ require "active_support/core_ext"
 require "rainbow"
 
 module Ablerc
-  autoload :Option,       'ablerc/option'
-  autoload :DSL,          'ablerc/dsl'
-  autoload :Context,      'ablerc/context'
-  autoload :Configuration ,'ablerc/configuration'
+  autoload :Option,           'ablerc/option'
+  autoload :DSL,              'ablerc/dsl'
+  autoload :Context,          'ablerc/context'
+  autoload :Configuration,    'ablerc/configuration'
+  autoload :StubGenerator,    'ablerc/stub_generator'
+  autoload :Errors,           'ablerc/errors'
+
 
   ABLE_RC_FILE      =   'able.rc'
-  DEFUALT_CONTEXTS  =   {global: {path: '/etc/'},
-                         user:   {path: '~/'},
-                         local:  {path: './'}}
 
-  class RcFileMissing < Exception; end
-  class AbleRCConfigMissing < Exception; end
 
   mattr_accessor :scheme
   self.scheme = []
 
+
   mattr_accessor :options
   self.options = []
+
 
   mattr_accessor :rc_file_name
   self.rc_file_name = ''
 
+
   mattr_accessor :dsl
   self.dsl = Ablerc::DSL.new
+
 
   mattr_accessor :contexts
   self.contexts = Ablerc::Context
 
 
-  class << self 
-    
+  mattr_accessor :stub_options
+  self.stub_options = {}
+
+
+  class << self
+
+
     # Iniatializes Ablerc with values from DSL
     def setup(&block)
       Ablerc.dsl.instance_eval(&block)
-      scheme.each { |c| dsl.context(c, DEFUALT_CONTEXTS[c]) unless contexts.exists? c}
+      scheme.each { |c| dsl.context(c, Ablerc::Context::DEFAULTS[c]) unless contexts.exists? c}
     end
+
 
     # Exposes option values from parsed rc files.
     # Aliased as <tt>#config</tt>
@@ -46,8 +54,15 @@ module Ablerc
       Ablerc::Configuration.instance
     end
 
+
     alias :config :configuration
 
+    # Prepares a stub rcfile with defined options
+    def stub
+      Ablerc::StubGenerator.new(Ablerc.contexts.paths.last + rc_file_name, {:options => options}.merge(stub_options))
+    end
+
+    # Loads the rc files in the order and locations specified by scheme
     def load_scheme
       raise RcFileMissing, "You must provide a value to rc_file_name" if rc_file_name.blank?
       self.scheme.each do |scheme|
@@ -55,7 +70,9 @@ module Ablerc
       end
     end
 
+
     private
+
     def load_able_rc!
       instance_eval(File.read( File.expand_path( File.join('.', ABLE_RC_FILE))))
       load_scheme
@@ -63,5 +80,7 @@ module Ablerc
     end
   end
 
+  # Immediatly load options and rc file configurations
   load_able_rc!
+
 end
