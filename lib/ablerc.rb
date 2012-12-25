@@ -59,7 +59,7 @@ module Ablerc
 
     # Prepares a stub rcfile with defined options
     def stub
-      Ablerc::StubGenerator.new(Ablerc.contexts.paths.last + rc_file_name, {:options => options}.merge(stub_options))
+      Ablerc::StubGenerator.new({:options => options}.merge(stub_options))
     end
 
     # Loads the rc files in the order and locations specified by scheme

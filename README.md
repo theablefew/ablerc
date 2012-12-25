@@ -86,13 +86,14 @@ Options DSL
 
 Providing Stub Configuration Files
 ----------
-If you're using the option DSL you can expose `Ablerc#generate_stub` via a rake task. `Ablerc#generate_stub` 
+If you're using the option DSL you can expose `Ablerc.stub.generate` via
+a rake task. `Ablerc.stub.generate` 
 accepts an optional scheme argument if you wish to place the rc file in a specific context. 
 
 ```ruby
 namespace :your_app do
   task :stub
-    Ablerc.generate_stub :local
+    Ablerc.stub.generate :local
   end
 end
 ```

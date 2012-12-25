@@ -32,6 +32,15 @@ module Ablerc
       end
 
 
+      def list
+        @@contexts
+      end
+
+      def names
+        @@contexts.keys
+      end
+
+
       def exists?(context)
         @@contexts.has_key? context
       end

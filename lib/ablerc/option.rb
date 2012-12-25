@@ -28,6 +28,7 @@ module Ablerc
         extract_behaviors( behaviors )
     end
 
+
     def to_stub
       stub = "## #{name}\n"
       stub << "# #{description}\n" unless description.nil?
@@ -47,11 +48,13 @@ module Ablerc
       line
     end
 
+
     def entry_for_boolean
       line = ""
       line << "# Accepts boolean values of true, false, 0 or 1" unless boolean.nil?
       line
     end
+
 
     def entry_for_refuse_allow_behavior
       line = ""
