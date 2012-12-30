@@ -73,8 +73,12 @@ module Ablerc
 
     private
 
+    def gem_root
+      File.expand_path '../..', __FILE__
+    end
+
     def load_able_rc!
-      instance_eval(File.read( File.expand_path( File.join('.', ABLE_RC_FILE))))
+      instance_eval(File.read( File.expand_path( gem_root, File.join('.', ABLE_RC_FILE))))
       load_scheme
       return configuration
     end
