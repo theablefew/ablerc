@@ -5,7 +5,6 @@ module Ablerc
     # The name of the file to be used for the configuration of this app
     # Include a dot if you expect hidden file behavior. 
     def rc_file_name(file_name)
-      puts "RC_FILE #{file_name}".color :green
       Ablerc.rc_file_name = file_name
     end
 

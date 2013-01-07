@@ -57,10 +57,12 @@ module Ablerc
 
     alias :config :configuration
 
+
     # Prepares a stub rcfile with defined options
     def stub
       Ablerc::StubGenerator.new({:options => options}.merge(stub_options))
     end
+
 
     # Loads the rc files in the order and locations specified by scheme
     def load_scheme
@@ -70,21 +72,26 @@ module Ablerc
       end
     end
 
+    def load!(path)
+      load_able_rc! File.expand_path( File.join( path, ABLE_RC_FILE))
+    end
 
     private
+
 
     def gem_root
       File.expand_path '../..', __FILE__
     end
 
-    def load_able_rc!
-      instance_eval(File.read( File.expand_path( gem_root, File.join('.', ABLE_RC_FILE))))
+
+    def load_able_rc!(path)
+      instance_eval(File.read( path ))
       load_scheme
       return configuration
     end
   end
 
   # Immediatly load options and rc file configurations
-  load_able_rc!
+  #load_able_rc!
 
 end

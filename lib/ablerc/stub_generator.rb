@@ -18,13 +18,22 @@ module Ablerc
       rescue
         raise "Context does not exist"
       end
-      File.open(path + Ablerc.rc_file_name, 'w') do |rc_file|
-        rc_file << header.to_s unless header.nil?
-        self.options.each do |option|
-          rc_file << option.to_stub
+
+      puts "Generating Stub for #{context} in #{path + '/' + Ablerc.rc_file_name}".color :green
+
+      begin
+        File.open(path + '/' + Ablerc.rc_file_name, 'w') do |rc_file|
+          rc_file << header.to_s unless header.nil?
+          self.options.each do |option|
+            rc_file << option.to_stub
+          end
+          rc_file << footer.to_s unless footer.nil?
         end
-        rc_file << footer.to_s unless footer.nil?
+      rescue e
+        puts "Error".color :red
+        puts e
       end
+
       true
     end
 
