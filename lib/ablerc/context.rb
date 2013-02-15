@@ -2,9 +2,9 @@ require 'hashie/mash'
 module Ablerc
   class Context
 
-    DEFAULTS = {global: {path: '/etc/'},
-                user:   {path: '~/'},
-                local:  {path: './'}}
+    DEFAULTS = {:global => {:path => '/etc/'},
+                :user => {:path => '~/'},
+                :local => {:path => './'}}
 
 
     attr_accessor :path, :name
