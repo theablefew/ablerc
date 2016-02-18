@@ -1,4 +1,5 @@
 require "ablerc/version"
+require "active_support"
 require "active_support/core_ext"
 require "rainbow"
 
